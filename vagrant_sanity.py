@@ -49,7 +49,7 @@ class VagrantSanity(Test):
 	if self.platform == "Linux":
 	    child.expect('.*password for pavan:.*', timeout=300)
 	    child.sendline (self.sudo_PASSWORD)
-	rc = child.wait()
+	rc = child.expect(pexpect.EOF, timeout=None)
 	self.assertEqual(0, rc, "Vagrant up returned non-zero exit code")
 	out = self.vagrant_status()
 	self.assertEqual("running", out, "The vagrant box is not running...")
@@ -68,8 +68,7 @@ class VagrantSanity(Test):
 	    child.expect('.*password for pavan:.*', timeout=300)
             child.sendline (self.sudo_PASSWORD)
             self.log.info(child.after)
-	rc = child.wait()
-	child.expect(pexpect.EOF)
+	rc = child.expect(pexpect.EOF, timeout=None)
 	self.assertEqual(0, rc)
 	out = self.vagrant_status()
 	self.assertEqual("running", out)
@@ -114,8 +113,7 @@ class VagrantSanity(Test):
         if self.platform == "Linux":
 	    child.expect('.*password for pavan:.*', timeout=300)
             child.sendline (self.sudo_PASSWORD)
-        rc = child.wait()
-        child.expect(pexpect.EOF)
+        rc = child.expect(pexpect.EOF, timeout=None)
         self.assertEqual(0, rc)
 	out = self.vagrant_status()
         self.assertEqual("running", out)
