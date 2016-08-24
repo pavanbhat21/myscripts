@@ -14,7 +14,7 @@ class VagrantSanity(Test):
 	self.platform = platform.system()
 	self.sudo_PASSWORD = self.params.get('sudo_PASSWORD')
 	self.suspended_state = ["paused", "saved"]
-	self.halt_state = ["shutoff", "poweroff"]
+	self.halt_state = ["off", "shutoff", "poweroff"]
 	self.registration_required = self.credentials_exported = False
 	self.vagrant_file = os.path.join(self.vagrant_VAGRANTFILE_DIR, "Vagrantfile") 
 	if os.path.exists(self.vagrant_file) and os.path.getsize(self.vagrant_file) > 0:	
