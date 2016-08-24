@@ -12,11 +12,11 @@ class VagrantSshfs(Test):
         self.vagrant_RHN_USERNAME = self.params.get('vagrant_RHN_USERNAME')
         self.vagrant_RHN_PASSWORD = self.params.get('vagrant_RHN_PASSWORD')
 	self.sudo_PASSWORD = self.params.get('sudo_PASSWORD')
-	if os.name == "nt":
+	if "CYGWIN" in platform.system():
 	    self.mountpoint = os.getenv("USERPROFILE")
 	    self.mountpoint_vm = '/' + self.mountpoint[:1].lower() + self.mountpoint[2:].replace("\\", "/")
 	    self.mountpoint_host = "/cygdrive" + self.mountpoint_vm
-        elif os.name == "posix":
+        else:
             self.mountpoint = self.mountpoint_host = self.mountpoint_vm = os.getenv("HOME")
 	self.dummy_file1_vm = os.path.join(self.mountpoint_vm, "dummy_file1.txt")
 	self.dummy_file2_vm = os.path.join(self.mountpoint_vm, "dummy_file2.txt")
