@@ -12,7 +12,8 @@ class VagrantSshfs(Test):
         self.vagrant_RHN_USERNAME = self.params.get('vagrant_RHN_USERNAME')
         self.vagrant_RHN_PASSWORD = self.params.get('vagrant_RHN_PASSWORD')
 	self.sudo_PASSWORD = self.params.get('sudo_PASSWORD')
-	if "CYGWIN" in platform.system():
+	self.platform = platform.system()
+	if "CYGWIN" in self.platform:
 	    self.mountpoint = os.getenv("USERPROFILE")
 	    self.mountpoint_vm = '/' + self.mountpoint[:1].lower() + self.mountpoint[2:].replace("\\", "/")
 	    self.mountpoint_host = "/cygdrive" + self.mountpoint_vm
@@ -26,8 +27,7 @@ class VagrantSshfs(Test):
 	self.dummy_file3_host = os.path.join(self.mountpoint_host, "dummy_file3.txt")
 	self.dummy_contents1 = "Dumping dummy contents into file"
 	self.dummy_contents2 = "This is a dummy file"	
-	self.platform = platform.system()
-        self.v = vagrant.Vagrant(self.vagrant_VAGRANTFILE_DIR)
+	self.v = vagrant.Vagrant(self.vagrant_VAGRANTFILE_DIR)
 	os.chdir(self.vagrant_VAGRANTFILE_DIR)
 
     
