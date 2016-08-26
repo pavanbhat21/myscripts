@@ -25,6 +25,9 @@ class VagrantSanity(Test):
 	        self.registration_required = True
 	    if os.getenv('SUB_USERNAME') and os.getenv('SUB_PASSWORD'):
 		self.credentials_exported = True	
+	else:
+	    print "Please check the vagrant file and re-run the test"
+	    sys.exit(1)
 
     def vagrant_status(self):
     	''' checks status of vagrant box and returns the state '''
