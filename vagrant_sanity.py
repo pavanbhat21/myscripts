@@ -46,8 +46,8 @@ class VagrantSanity(Test):
 	    child.expect('.*Would you like to register the system now.*', timeout=300)
 	    child.sendline ('n')
 	    self.log.info(child.after)
-	if self.platform == "Linux":
-	    child.expect('.*password for pavan:.*', timeout=300)
+	index = child.expect (['.*assword.*', pexpect.EOF, pexpect.TIMEOUT], timeout=300)
+	if index == 0:
 	    child.sendline (self.sudo_PASSWORD)
 	rc = child.expect(pexpect.EOF, timeout=None)
 	self.assertEqual(0, rc, "Vagrant up returned non-zero exit code")
@@ -64,8 +64,8 @@ class VagrantSanity(Test):
 	cmd = "vagrant up --provider %s" %(self.vagrant_PROVIDER)
 	#child = popen_spawn.PopenSpawn (cmd)
 	child = pexpect.spawn (cmd)
-	if self.platform == "Linux":
-	    child.expect('.*password for pavan:.*', timeout=300)
+	index = child.expect (['.*assword.*', pexpect.EOF, pexpect.TIMEOUT], timeout=300)
+	if index == 0:
             child.sendline (self.sudo_PASSWORD)
             self.log.info(child.after)
 	rc = child.expect(pexpect.EOF, timeout=None)
@@ -110,8 +110,8 @@ class VagrantSanity(Test):
         #cmd = "self.v.reload()"
 	cmd = "vagrant reload"
 	child = pexpect.spawn (cmd)
-        if self.platform == "Linux":
-	    child.expect('.*password for pavan:.*', timeout=300)
+        index = child.expect (['.*assword.*', pexpect.EOF, pexpect.TIMEOUT], timeout=300)
+	if index == 0:
             child.sendline (self.sudo_PASSWORD)
         rc = child.expect(pexpect.EOF, timeout=None)
         self.assertEqual(0, rc)
