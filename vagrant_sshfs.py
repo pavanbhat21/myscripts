@@ -39,8 +39,8 @@ class VagrantSshfs(Test):
 	os.environ["SUB_PASSWORD"] = self.vagrant_RHN_PASSWORD
 	cmd = "vagrant up --provider %s" %(self.vagrant_PROVIDER)
 	child = pexpect.spawn (cmd)
-	if self.platform == "Linux":
-	    child.expect('.*password for pavan:.*', timeout=300)
+	index = child.expect (['.*assword.*', pexpect.EOF, pexpect.TIMEOUT], timeout=300)
+	if index == 0:
             child.sendline (self.sudo_PASSWORD)
             self.log.info(child.after)
 	rc = child.expect(pexpect.EOF, timeout=None)
@@ -57,7 +57,7 @@ class VagrantSshfs(Test):
 
 
     def test_check_mount(self):
-	#self.vagrant_up_with_subscription()
+	self.vagrant_up_with_subscription()
 	self.log.info("Checking if the user home dir is mounted fine inside the VM...")
 	self.log.info("Checking the user home dir...")
 	self.assertTrue(os.path.isdir(self.mountpoint_host))
@@ -119,7 +119,7 @@ class VagrantSshfs(Test):
 	except Exception as e:
 	    self.log.error("Error while removing file...")
 	    raise e
-	#self.remove_vm()
+	self.remove_vm()
 	
     def tearDown(self):
 	print "End of test.........."
